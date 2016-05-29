@@ -3,14 +3,15 @@
 #include <avr/interrupt.h>   // interrupt vectors
 #include <util/delay.h>      // delay functions
 
-#include <stdint.h>          // C header for int types like uint8_t
-#include <stdbool.h>         // C header for the bool type
+#include <stdint.h>
+#include <stdbool.h>
 
 // Include stuff from the library
 #include "lib/iopins.h"
 #include "lib/usart.h"
 #include "lib/debounce.h"
 
+/* uppercase key names */
 static const char names[] = {
 	'L', // 2
 	'U', // 3
@@ -25,6 +26,7 @@ static const char names[] = {
 	'Y', // 12
 };
 
+/* nr of keys down */
 uint8_t down = 0;
 
 static void pin_change_handler(uint8_t n, bool state)
@@ -86,18 +88,9 @@ void main(void)
 {
 	hw_init();
 
-
-	// globally enable interrupts (for the USART_RX handler)
-	//sei();
-	//pin_up(9);
-
 	int cnt = 0;
 	while (1) {
 		_delay_ms(1);
 		debo_tick();
-
-		if (cnt++ > 500) {
-			cnt = 0;
-		}
 	}
 }
